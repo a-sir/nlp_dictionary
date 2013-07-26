@@ -31,4 +31,11 @@ public class Lemma implements Serializable {
 		return Collections.unmodifiableSet(wordforms);
 	}
 
+	@Override
+	public String toString() {
+		return "Lemma{" +
+				"name='" + name + '\'' +
+				", wordforms=" + wordforms +
+				'}';
+	}
 }
