@@ -1,0 +1,58 @@
+<project name="nlp_dictionaries" default="rebuild" basedir=".">
+
+  <property file="${basedir}/build.properties" />
+
+  <path id="classpath.compile">
+    <fileset dir="${lib.dir}" includes="**/*.jar" />
+  </path>
+
+  <path id="classpath.runtime">
+    <fileset dir="${build.dir}">
+      <include name="*.jar" />
+    </fileset>
+    <path refid="classpath.compile" />
+  </path>
+
+  <target name="rebuild" depends="clean, build"/>
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${build.classes.dir}"/>
+  </target>
+
+  <target name="compile" depends="init"
+        description="compile the source " >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac
+        destdir="${build.classes.dir}"
+        encoding="${build.encoding}"
+        optimize="${javac.optimize}"
+        target="${javac.version}"
+        debug="${javac.debug}"
+        source="${javac.version}"
+        deprecation="${javac.deprecation}"
+        includeAntRuntime="false"
+     >
+        <classpath refid="classpath.compile"/>
+        <compilerarg line="-XDignore.symbol.file"/>
+        <src path="${src.dir.tests}" />
+        <src path="${src.dir}" />
+     </javac>
+  </target>
+
+  <target name="build" depends="compile" description="generate the distribution" >
+    <!-- Create the distribution directory -->
+    <mkdir dir="${build.dir}"/>
+
+    <!-- Put everything in ${build} into the nlp_dictionaries-${DSTAMP}.jar file -->
+    <jar jarfile="${build.dir}/${project.name}-${DSTAMP}.jar" basedir="${build.classes.dir}"/>
+  </target>
+
+  <target name="clean">
+    <delete dir="${build.dir}"/>
+    <delete dir="${build.classes.dir}"/>
+  </target>
+</project>
