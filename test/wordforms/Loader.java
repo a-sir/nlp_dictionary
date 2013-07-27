@@ -6,10 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.io.*;
+import java.util.Set;
+import java.util.zip.GZIPInputStream;
 
 /**
  * @author A.Sirenko
@@ -19,10 +20,18 @@ public class Loader {
 
 	private static Logger LOG = LoggerFactory.getLogger(Loader.class);
 
-	public static @NotNull List<Lemma> loadRaw(@NotNull File resource) throws IOException {
+	private static final String DEFAULT_PATH = "data/wordforms.gz";
+
+	public static @NotNull Set<Lemma> loadDefaultSet() throws IOException {
+		BufferedInputStream inputStream = new BufferedInputStream(
+				new GZIPInputStream(new FileInputStream(DEFAULT_PATH)));
+		return new HashSet<>(load(inputStream));
+	}
+
+	public static @NotNull List<Lemma> load(@NotNull InputStream resource) throws IOException {
 
 		List<Lemma> lemms = new ArrayList<>();
-		try (BufferedReader br = new BufferedReader(new FileReader(resource))) {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(resource))) {
 			ReadedValue v;
 			String prev = null;
 
@@ -36,6 +45,7 @@ public class Loader {
 
 	/**
 	 * Example:
+
 	 ----- 1 -----
 	 the
 	 ----- 2 -----
@@ -44,13 +54,14 @@ public class Loader {
 	 and
 	 be
 	     am, are -> [are], art -> [art], been, being -> [being], is, was, wast, were
+
 	 */
 	private static @Nullable ReadedValue readLemma(@NotNull BufferedReader br, @Nullable String previousLine)
 			throws IOException {
 		String name = null;
 		if (previousLine != null && !previousLine.startsWith("-----")) {
 			if (previousLine.startsWith(" ")) {
-				throw new RuntimeException("Lemma name expected, but wordforms found " + previousLine);
+				throw new IllegalArgumentException("Lemma name expected, but wordforms found " + previousLine);
 			}
 			name = previousLine;
 		}
@@ -62,7 +73,7 @@ public class Loader {
 		if (name == null) return null;
 
 		if (name.startsWith(" ")) {
-			throw new RuntimeException("Name of lemma is missed");
+			throw new IllegalArgumentException("Name of lemma is missed");
 		}
 
 		String wfLine = br.readLine();
@@ -82,7 +93,7 @@ public class Loader {
 	/**
 	 * "    am, are -> [are], art -> [art], been, being -> [being], is, was, wast, were"
 	 */
-	private static @NotNull List<String> extractWFs(@NotNull String wfLine) {
+	static @NotNull List<String> extractWFs(@NotNull String wfLine) {
 		List<String> res = new ArrayList<>(20);
 		for (String e : wfLine.split(",")) {
 			if (e.contains("->")) {
