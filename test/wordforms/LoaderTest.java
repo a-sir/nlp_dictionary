@@ -38,7 +38,7 @@ public class LoaderTest {
 		try {
 			List<Lemma> lemms = Loader.load(new FileInputStream("testdata/wordforms.raw"));
 			assertNotNull(lemms);
-			assertEquals(8, lemms.size());
+			assertEquals(9, lemms.size());
 			assertLemmaContent(lemms.get(0), "the", "the");
 			assertLemmaContent(lemms.get(1), "a", "a", "an");
 			assertLemmaContent(lemms.get(2), "and", "and");
@@ -48,6 +48,9 @@ public class LoaderTest {
 			assertLemmaContent(lemms.get(5), "of", "of");
 			assertLemmaContent(lemms.get(6), "to", "to");
 			assertLemmaContent(lemms.get(7), "for", "for");
+			assertLemmaContent(
+					lemms.get(8),
+					"art", "art", "artful", "artfully", "artfulness", "artless", "artlessly", "artlessness", "arts");
 		} catch (IOException e) {
 			fail(e.toString());
 		}

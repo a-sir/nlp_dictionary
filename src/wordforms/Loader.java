@@ -75,7 +75,7 @@ public class Loader {
 		if (name.startsWith(" ")) {
 			throw new IllegalArgumentException("Name of lemma is missed");
 		}
-
+		name = skipConnections(name);
 		String wfLine = br.readLine();
 		if (wfLine == null) {
 			return new ReadedValue(Lemma.create(name, name), null);
@@ -96,12 +96,16 @@ public class Loader {
 	static @NotNull List<String> extractWFs(@NotNull String wfLine) {
 		List<String> res = new ArrayList<>(20);
 		for (String e : wfLine.split(",")) {
-			if (e.contains("->")) {
-				e = e.substring(0, e.indexOf("->"));
-			}
-			res.add(e.trim());
+			res.add(skipConnections(e));
 		}
 		return res;
+	}
+
+	static @NotNull String skipConnections(@NotNull String s) {
+		if (s.contains("->")) {
+			s = s.substring(0, s.indexOf("->"));
+		}
+		return s.trim();
 	}
 
 	private static class ReadedValue {
