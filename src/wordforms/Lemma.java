@@ -17,6 +17,14 @@ public class Lemma implements Serializable {
 
 	private final @NotNull Set<WF> wordforms;
 
+	public static @NotNull Lemma create(@NotNull String name, @NotNull String ... wordforms) {
+		WF[] wfs = new WF[wordforms.length];
+		for (int i = 0 ; i < wordforms.length ; ++i) {
+			wfs[i] = new WF(wordforms[i]);
+		}
+		return new Lemma(name, wfs);
+	}
+
 	public Lemma(@NotNull String name, @NotNull WF ... wordforms) {
 		this.name = name;
 		this.wordforms = new HashSet<>(Arrays.asList(wordforms));
@@ -37,5 +45,20 @@ public class Lemma implements Serializable {
 				"name='" + name + '\'' +
 				", wordforms=" + wordforms +
 				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Lemma lemma = (Lemma) o;
+
+		return name.equals(lemma.name);
+	}
+
+	@Override
+	public int hashCode() {
+		return name.hashCode();
 	}
 }
