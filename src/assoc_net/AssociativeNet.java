@@ -151,31 +151,15 @@ public class AssociativeNet {
 		return reacts;
 	}
 
-	@Nullable
-	public Set<String> getStims(@NotNull String react) {
-		if (reactConnections.containsKey(react)) {
-			List<Connection> conns = reactConnections.get(react);
-			Set<String> r = new HashSet<>(conns.size());
-			for (Connection c : conns) {
-				r.add(c.getReak());
-			}
-			return r;
-		} else {
-			return null;
-		}
+	@NotNull
+	public ConnSet getConnsForReact(@NotNull String react) {
+		return (reactConnections.containsKey(react)) ?
+			new ConnSet(reactConnections.get(react)) : ConnSet.EMPTY_SET;
 	}
 
-	@Nullable
-	public Set<String> getReacts(@NotNull String stim) {
-		if (stimConnections.containsKey(stim)) {
-			List<Connection> conns = stimConnections.get(stim);
-			Set<String> r = new HashSet<>(conns.size());
-			for (Connection c : conns) {
-				r.add(c.getReak());
-			}
-			return r;
-		} else {
-			return null;
-		}
+	@NotNull
+	public ConnSet getConnsForStim(@NotNull String stim) {
+		return (stimConnections.containsKey(stim)) ?
+			new ConnSet(stimConnections.get(stim)) : ConnSet.EMPTY_SET;
 	}
 }

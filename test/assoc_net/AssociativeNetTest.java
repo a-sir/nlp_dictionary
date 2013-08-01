@@ -48,10 +48,10 @@ public class AssociativeNetTest {
 			assertEquals(9_975, net.getReacts().size());
 
 			TestUtils.setEquals(
-					net.getReacts("a"),
+					net.getConnsForStim("a").getReacts(),
 					"b", "alphabet", "the", "grade", "letter", "plus", "an", "z",
 					"and", "apple", "great", "one", "word");
-			TestUtils.setEquals(net.getStims("anteater"), "aardvark", "ant");
+			TestUtils.setEquals(net.getConnsForReact("anteater").getStims(), "aardvark", "ant");
 		} catch (IOException e) {
 			fail();
 		}
