@@ -1,5 +1,6 @@
 package cognems;
 
+import com.google.common.base.Splitter;
 import javafx.util.Pair;
 import org.jetbrains.annotations.*;
 import org.slf4j.Logger;
@@ -53,7 +54,7 @@ public class WikitionaryParser {
 
 	private static final List<Cognem> NODATA = Collections.unmodifiableList(new ArrayList<Cognem>(0));
 
-
+	private static Splitter SPLIT_BY_NEW_LINE = Splitter.on("\n").trimResults().omitEmptyStrings();
 
 	static List<Cognem> parseDescription(@NotNull String cognemName, @NotNull String text) {
 		List<Cognem> res = new ArrayList<>();
@@ -69,7 +70,7 @@ public class WikitionaryParser {
 		if (j != -1) {
 			text = text.substring(j);
 			Cognem.Builder builder = new Cognem.Builder(cognemName);
-			for (String l : text.split("\n")) {
+			for (String l : SPLIT_BY_NEW_LINE.split(text)) {
 				if (NEXT_SECTION.matcher(l).find()) {
 					break;
 				}
