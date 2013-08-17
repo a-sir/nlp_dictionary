@@ -29,4 +29,14 @@ public class WikitionaryParserTest {
 		assertEquals(l1, res.get(0));
 		assertEquals(l2, res.get(1));
 	}
+
+	@Test
+	public void testRemoveMarkupFromDescription() {
+		assertNull(WikitionaryParser.plainDescription("ab '''{{NUMBEROFARTICLES}}''' c"));
+		assertEquals("ab multilingual c", WikitionaryParser.plainDescription("ab [[multilingual]] c"));
+
+		assertEquals(
+				"even create a page for a term",
+				WikitionaryParser.plainDescription("even [[Help:Starting a new page|create a page]] for a term"));
+	}
 }
