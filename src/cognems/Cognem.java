@@ -1,8 +1,8 @@
 package cognems;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -23,23 +23,36 @@ public class Cognem {
 		this.context = Collections.unmodifiableList(Arrays.asList(context));
 	}
 
-	public static class CognemBuilder {
+	@Override
+	public String toString() {
+		return "Cognem{" +
+				"name='" + name + '\'' +
+				", sense='" + sense + '\'' +
+				", context=" + context +
+				'}';
+	}
+
+	public static class Builder {
 		public final String name;
 		public String sense;
 		public String[] context;
 
 
-		public CognemBuilder(@NotNull String name) {
+		public Builder(@NotNull String name) {
 			this.name = name;
 		}
 
-		public CognemBuilder setAttributes(@NotNull String sense, @NotNull String ... context) {
+		public Builder setAttributes(@NotNull String sense, @Nullable String ... context) {
 			if (sense.length() == 0) {
 				throw new RuntimeException("Empty sense");
 			}
 			this.sense = sense;
-			this.context = new String[context.length];
-			System.arraycopy(context, 0, this.context, 0, context.length);
+			if (context != null) {
+				this.context = new String[context.length];
+				System.arraycopy(context, 0, this.context, 0, context.length);
+			} else {
+				this.context = new String[0];
+			}
 			return this;
 		}
 

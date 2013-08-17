@@ -10,6 +10,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author A.Sirenko
@@ -71,22 +72,18 @@ public class WikitionaryDumpHandler extends DefaultHandler {
 				break;
 			case "text":
 				try {
-					String[] lines = sb.toString().split("\n");
-					if (lines.length > 0) {
+					List<Cognem> cns = WikitionaryParser.parseDescription(title, sb.toString());
+					if (cns.size() > 0) {
 						if (firstLine) {
 							firstLine = false;
 						} else {
 							bw.newLine();
 						}
 						bw.write(title);
-						for (String l : lines) {
-							l = l.trim();
-							if (l.isEmpty()) {
-								continue;
-							}
+						for (Cognem c : cns) {
 							bw.newLine();
 							bw.write("\t");
-							bw.write(l);
+							bw.write(c.sense);
 						}
 					}
 					sb.setLength(0);

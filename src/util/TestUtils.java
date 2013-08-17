@@ -1,7 +1,9 @@
 package util;
 
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.*;
 
+import java.io.BufferedReader;
+import java.io.CharArrayReader;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,6 +34,11 @@ public class TestUtils {
 			}
 		}
 		return true;
+	}
+
+	@NotNull
+	public static BufferedReader createBufferedReader(@NotNull String content) {
+		return new BufferedReader(new CharArrayReader(content.toCharArray()));
 	}
 
 }

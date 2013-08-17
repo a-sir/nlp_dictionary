@@ -1,9 +1,7 @@
 package cognems;
 
 import org.junit.Test;
-import util.TestUtils;
 
-import java.io.IOException;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -13,6 +11,7 @@ import static org.junit.Assert.*;
  * Date: 8/4/13
  */
 public class WikitionaryParserTest {
+
 	@Test
 	public void testParseDescription() {
 		String l1 = "A [[reference work]]";
@@ -23,20 +22,34 @@ public class WikitionaryParserTest {
 				"#: " + l2 + "\n" +
 				"* {{seeCites}}\n" +
 				"====Synonyms====\n* [[wordbook]]";
-		List<String> res = WikitionaryParser.parseDescription(text);
+		List<Cognem> res = WikitionaryParser.parseDescription("somename", text);
 		assertNotNull(res);
 		assertEquals(2, res.size());
-		assertEquals(l1, res.get(0));
-		assertEquals(l2, res.get(1));
+		assertEquals(l1.replace("[[", "").replace("]]", ""), res.get(0).sense);
+		assertEquals(l2, res.get(1).sense);
 	}
 
 	@Test
 	public void testRemoveMarkupFromDescription() {
-		assertNull(WikitionaryParser.plainDescription("ab '''{{NUMBEROFARTICLES}}''' c"));
-		assertEquals("ab multilingual c", WikitionaryParser.plainDescription("ab [[multilingual]] c"));
+		Cognem.Builder builder = new Cognem.Builder("someCognem");
+		assertNull(WikitionaryParser.parseLine("ab '''{{NUMBEROFARTICLES}}''' c", builder));
+		Cognem c = WikitionaryParser.parseLine("ab [[multilingual]] c", builder);
+		assertNotNull(c);
+		assertEquals("ab multilingual c", c.sense);
 
-		assertEquals(
-				"even create a page for a term",
-				WikitionaryParser.plainDescription("even [[Help:Starting a new page|create a page]] for a term"));
+		c = WikitionaryParser.parseLine("even [[Help:Starting a new page|create a page]] for a term", builder);
+		assertNotNull(c);
+		assertEquals("even create a page for a term", c.sense);
+	}
+
+	@Test
+	public void testParsingOfContext() {
+		Cognem.Builder builder = new Cognem.Builder("someCognem");
+		Cognem c = WikitionaryParser.parseLine("{{context|colloquial|lang=en}} The Atlantic Ocean.", builder);
+		assertNotNull(c);
+		assertEquals("The Atlantic Ocean.", c.sense);
+		assertEquals(2, c.context.size());
+		assertEquals("colloquial", c.context.get(0));
+		assertEquals("lang=en", c.context.get(1));
 	}
 }
