@@ -34,6 +34,9 @@ public class Cognem {
 		}
 
 		public CognemBuilder setAttributes(@NotNull String sense, @NotNull String ... context) {
+			if (sense.length() == 0) {
+				throw new RuntimeException("Empty sense");
+			}
 			this.sense = sense;
 			this.context = new String[context.length];
 			System.arraycopy(context, 0, this.context, 0, context.length);
