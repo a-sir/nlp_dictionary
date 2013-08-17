@@ -13,6 +13,7 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -98,10 +99,14 @@ public class WikitionaryParser {
 		if (ELEMENTS_TO_SKIP.matcher(line).find()
 				|| line.contains("{{defdate|")
 				|| line.startsWith("{{usex|")
-				|| line.startsWith("{{alternative spelling of|")
+				|| line.contains("{{alternative spelling of|")
 				|| line.startsWith("{{label|")
 				|| line.startsWith("{{plural of|")
-				|| line.startsWith("{{Latn-def|")) {
+				|| line.startsWith("{{Latn-def|")
+				|| line.contains("http://")
+				|| line.contains("{{qualifier|")
+				|| line.contains("{{term|")
+				|| line.contains("{{taxlink|")) {
 			return null;
 		}
 		// {{context|US|lang=en}} sfdsf

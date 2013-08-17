@@ -1,5 +1,6 @@
 package cognems;
 
+import com.google.common.base.Joiner;
 import com.sun.istack.internal.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,6 +66,8 @@ public class WikitionaryDumpHandler extends DefaultHandler {
 		}
 	}
 
+	private final Joiner joiner = Joiner.on(',');
+
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		switch (qName) {
 			case "page":
@@ -82,6 +85,7 @@ public class WikitionaryDumpHandler extends DefaultHandler {
 						bw.write(title);
 						for (Cognem c : cns) {
 							bw.newLine();
+							bw.write(c.context.isEmpty() ? "---" : joiner.join(c.context));
 							bw.write("\t");
 							bw.write(c.sense);
 						}
