@@ -82,7 +82,7 @@ public class WikitionaryDumpHandler extends DefaultHandler {
 						} else {
 							bw.newLine();
 						}
-						bw.write(title);
+						bw.write("# " + title);
 						for (Cognem c : cns) {
 							bw.newLine();
 							bw.write(c.context.isEmpty() ? "---" : joiner.join(c.context));

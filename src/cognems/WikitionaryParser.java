@@ -21,6 +21,26 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
+ *
+ * Input: wiktionary dump (tested on enwiktionary-20130709-pages-articles.xml)
+ * Output: UTF-8 text file formatted
+ * # <name of entity>
+ * <comma-separated context tags | --->\t<Description>
+ * ...
+ * <comma-separated context tags | --->\t<Description>
+ *
+ * Each extracted entity has one or several descriptions. Each description contains text and set of context tags(may
+ * be empty).
+ *
+ * For example:
+
+ # nonsense
+ ---     Letters or words, in writing or speech, that have no meaning or seem to have no meaning.
+ ---     ''After my father had a stroke, every time he tried to talk, it sounded like '''nonsense'''.''
+ ---     An untrue statement.
+ ---     ''He says that I stole his computer, but that's just '''nonsense'''.''
+ ---     Something foolish.
+
  * @author A.Sirenko
  * Date: 8/4/13
  */
