@@ -17,7 +17,7 @@ import java.util.List;
  * @author A.Sirenko
  * Date: 8/8/13
  */
-public class WikitionaryDumpHandler extends DefaultHandler {
+public class WiktionaryDumpHandler extends DefaultHandler {
 
 	Logger LOG = LoggerFactory.getLogger(this.getClass());
 
@@ -34,7 +34,7 @@ public class WikitionaryDumpHandler extends DefaultHandler {
 	private boolean firstLine = true;
 	private StringBuilder sb = new StringBuilder();
 
-	public WikitionaryDumpHandler(@NotNull BufferedWriter bw) {
+	public WiktionaryDumpHandler(@NotNull BufferedWriter bw) {
 		resetState();
 		this.bw = bw;
 	}
@@ -75,7 +75,7 @@ public class WikitionaryDumpHandler extends DefaultHandler {
 				break;
 			case "text":
 				try {
-					List<Cognem> cns = WikitionaryParser.parseDescription(title, sb.toString());
+					List<Cognem> cns = WiktionaryParser.parseDescription(title, sb.toString());
 					if (cns.size() > 0) {
 						if (firstLine) {
 							firstLine = false;

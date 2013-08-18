@@ -44,9 +44,9 @@ import java.util.regex.Pattern;
  * @author A.Sirenko
  * Date: 8/4/13
  */
-public class WikitionaryParser {
+public class WiktionaryParser {
 
-	private static Logger LOG = LoggerFactory.getLogger(WikitionaryParser.class);
+	private static Logger LOG = LoggerFactory.getLogger(WiktionaryParser.class);
 
 	public static void main(String[] args) throws ParserConfigurationException, SAXException {
 
@@ -59,7 +59,7 @@ public class WikitionaryParser {
 				InputStream input = Files.newInputStream(Paths.get(args[0]));
 				BufferedWriter bw = Files.newBufferedWriter(Paths.get(args[1]), Charset.forName("UTF-8"))
 		) {
-			WikitionaryDumpHandler handler = new WikitionaryDumpHandler(bw);
+			WiktionaryDumpHandler handler = new WiktionaryDumpHandler(bw);
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
 			saxParser.parse(input, handler);

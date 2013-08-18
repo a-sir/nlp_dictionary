@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
  * @author A.Sirenko
  * Date: 8/4/13
  */
-public class WikitionaryParserTest {
+public class WiktionaryParserTest {
 
 	@Test
 	public void testParseDescription() {
@@ -22,7 +22,7 @@ public class WikitionaryParserTest {
 				"#: " + l2 + "\n" +
 				"* {{seeCites}}\n" +
 				"====Synonyms====\n* [[wordbook]]";
-		List<Cognem> res = WikitionaryParser.parseDescription("somename", text);
+		List<Cognem> res = WiktionaryParser.parseDescription("somename", text);
 		assertNotNull(res);
 		assertEquals(2, res.size());
 		assertEquals(l1.replace("[[", "").replace("]]", ""), res.get(0).sense);
@@ -32,12 +32,12 @@ public class WikitionaryParserTest {
 	@Test
 	public void testRemoveMarkupFromDescription() {
 		Cognem.Builder builder = new Cognem.Builder("someCognem");
-		assertNull(WikitionaryParser.parseLine("ab '''{{NUMBEROFARTICLES}}''' c", builder));
-		Cognem c = WikitionaryParser.parseLine("ab [[multilingual]] c", builder);
+		assertNull(WiktionaryParser.parseLine("ab '''{{NUMBEROFARTICLES}}''' c", builder));
+		Cognem c = WiktionaryParser.parseLine("ab [[multilingual]] c", builder);
 		assertNotNull(c);
 		assertEquals("ab multilingual c", c.sense);
 
-		c = WikitionaryParser.parseLine("even [[Help:Starting a new page|create a page]] for a term", builder);
+		c = WiktionaryParser.parseLine("even [[Help:Starting a new page|create a page]] for a term", builder);
 		assertNotNull(c);
 		assertEquals("even create a page for a term", c.sense);
 	}
@@ -45,7 +45,7 @@ public class WikitionaryParserTest {
 	@Test
 	public void testParsingOfContext() {
 		Cognem.Builder builder = new Cognem.Builder("someCognem");
-		Cognem c = WikitionaryParser.parseLine("{{context|colloquial|lang=en}} The Atlantic Ocean.", builder);
+		Cognem c = WiktionaryParser.parseLine("{{context|colloquial|lang=en}} The Atlantic Ocean.", builder);
 		assertNotNull(c);
 		assertEquals("The Atlantic Ocean.", c.sense);
 		assertEquals(2, c.context.size());
