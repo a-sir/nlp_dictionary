@@ -18,7 +18,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -49,9 +48,6 @@ public class WikitionaryParser {
 		}
 	}
 
-	private static final Pattern NOUN_PATTERN = Pattern.compile(".*[=]+Noun[=]+\n.+");
-	private static final Pattern NEXT_SECTION = Pattern.compile("^[=]+[a-zA-Z]+[=]+$");
-
 	private static final List<Cognem> NODATA = Collections.unmodifiableList(new ArrayList<Cognem>(0));
 
 	private static Splitter SPLIT_BY_NEW_LINE = Splitter.on("\n").trimResults().omitEmptyStrings();
@@ -59,19 +55,17 @@ public class WikitionaryParser {
 	static List<Cognem> parseDescription(@NotNull String cognemName, @NotNull String text) {
 		List<Cognem> res = new ArrayList<>();
 
-		Matcher m = NOUN_PATTERN.matcher(text);
-		int i;
-		if (m.find()) {
-			i = m.start();
-		} else {
+		int i = text.indexOf("=Noun=");
+
+		if (i == -1) {
 			return NODATA;
 		}
-		int j = text.indexOf('\n', i);
+		int j = text.indexOf('\n', i + 5);
 		if (j != -1) {
 			text = text.substring(j);
 			Cognem.Builder builder = new Cognem.Builder(cognemName);
 			for (String l : SPLIT_BY_NEW_LINE.split(text)) {
-				if (NEXT_SECTION.matcher(l).find()) {
+				if (l.startsWith("=")) {
 					break;
 				}
 				Cognem cogn = null;
