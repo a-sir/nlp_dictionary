@@ -4,9 +4,11 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.io.Files;
 import com.google.common.io.LineProcessor;
+import com.sun.istack.internal.NotNull;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,6 +25,13 @@ public class Loader {
 		Reader r = new Reader();
 		Files.readLines(new File("data/princeton_wp_synsets"), Charset.forName("UTF-8"), r);
 		System.out.println("Readed " + r.getResult().size() + " synsets.");
+	}
+
+	@NotNull
+	public static Synsets read(@NotNull Path path) throws IOException {
+		Reader r = new Reader();
+		Files.readLines(path.toFile(), Charset.forName("UTF-8"), r);
+		return new Synsets(r.getResult());
 	}
 
 	private static class Reader implements LineProcessor<List<String[]>> {
