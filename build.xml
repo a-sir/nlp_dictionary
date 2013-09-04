@@ -48,7 +48,11 @@
     <mkdir dir="${build.dir}"/>
 
     <!-- Put everything in ${build} into the nlp_dictionaries-${DSTAMP}.jar file -->
-    <jar jarfile="${build.dir}/${project.name}-${DSTAMP}.jar" basedir="${build.classes.dir}"/>
+    <jar jarfile="${build.dir}/${project.name}-${DSTAMP}.jar">
+	<fileset dir="${build.classes.dir}" />
+	<fileset dir="${basedir}" includes="data/**" />
+	<fileset dir="${basedir}" includes="testdata/**" />
+    </jar>
   </target>
 
   <target name="clean">
