@@ -1,7 +1,6 @@
 package cognems;
 
 import com.google.common.base.Splitter;
-import javafx.util.Pair;
 import org.jetbrains.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -133,21 +132,21 @@ public class WiktionaryParser {
 		}
 
 		StringBuilder sb = new StringBuilder(line.length());
-		Pair<Integer, Integer> bounds;
+		int[] bounds;
 		int offset = 0;
 
 		while ((bounds = StringUtils.getBounds(line, offset, wikiLinkOpen, wikiLinkClose)) != null) {
-			sb.append(line.substring(offset, bounds.getKey()));
+			sb.append(line.substring(offset, bounds[0]));
 			String link = line.substring(
-					bounds.getKey() + wikiLinkOpen.length(),
-					bounds.getValue()
+					bounds[0] + wikiLinkOpen.length(),
+					bounds[1]
 			);
 			int i = link.lastIndexOf('|');
 			sb.append(
 					(i != -1 && i != link.length() - 1) ?
 							link.substring(i + 1) : link
 			);
-			offset = bounds.getValue() + wikiLinkClose.length();
+			offset = bounds[1] + wikiLinkClose.length();
 		}
 		sb.append(line.substring(offset));
 		String sense = sb.toString().trim();
