@@ -2,10 +2,7 @@ package assoc_net;
 
 import org.jetbrains.annotations.*;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author A.Sirenko
@@ -79,5 +76,9 @@ public class ConnSet {
 
 	public boolean containsReact(@NotNull String react) {
 		return getReacts().contains(react);
+	}
+
+	public Set<Connection> getConns() {
+		return Collections.unmodifiableSet(conns);
 	}
 }
