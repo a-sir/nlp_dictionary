@@ -48,7 +48,16 @@ public class Synsets {
 		}
 	}
 
+	@NotNull
+	public List<String> getSynset(int index) {
+		return Arrays.asList(synsets.get(index));
+	}
+
 	public int size() {
+		return synsets.size();
+	}
+
+	public int getCountOfLemms() {
 		return lemmaToSynset.size();
 	}
 }

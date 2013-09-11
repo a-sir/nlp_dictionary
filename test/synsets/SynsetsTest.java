@@ -20,7 +20,7 @@ public class SynsetsTest {
 		try {
 			Synsets syns = Loader.read(Paths.get("data/princeton_wp_synsets"));
 			assertNotNull(syns);
-			assertEquals(94857, syns.size());
+			assertEquals(94857, syns.getCountOfLemms());
 
 			String[] arr = syns.getSyms("Not_Existed");
 			assertNotNull(arr);
