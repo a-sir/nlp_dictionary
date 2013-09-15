@@ -11,22 +11,22 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.*;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.zip.GZIPOutputStream;
 
 /**
  *
  * Input: wiktionary dump (tested on enwiktionary-20130709-pages-articles.xml)
  * Output: UTF-8 text file formatted
  * # <name of entity>
- * <comma-separated context tags | --->\t<Description>
+ * <comma-separated context tags>|<Description>
  * ...
- * <comma-separated context tags | --->\t<Description>
+ * <comma-separated context tags>|<Description>
  *
  * Each extracted entity has one or several descriptions. Each description contains text and set of context tags(may
  * be empty).
@@ -34,11 +34,11 @@ import java.util.regex.Pattern;
  * For example:
 
  # nonsense
- ---     Letters or words, in writing or speech, that have no meaning or seem to have no meaning.
- ---     ''After my father had a stroke, every time he tried to talk, it sounded like '''nonsense'''.''
- ---     An untrue statement.
- ---     ''He says that I stole his computer, but that's just '''nonsense'''.''
- ---     Something foolish.
+ ---|Letters or words, in writing or speech, that have no meaning or seem to have no meaning.
+ ---|''After my father had a stroke, every time he tried to talk, it sounded like '''nonsense'''.''
+ ---|An untrue statement.
+ ---|''He says that I stole his computer, but that's just '''nonsense'''.''
+ ---|Something foolish.
 
  * @author A.Sirenko
  * Date: 8/4/13
@@ -47,16 +47,15 @@ public class WiktionaryParser {
 
 	private static Logger LOG = LoggerFactory.getLogger(WiktionaryParser.class);
 
-	public static void main(String[] args) throws ParserConfigurationException, SAXException {
+	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
 
 		if (args.length < 2) {
 			LOG.error("Use with args: <wikitionary dump> <out file>");
 			System.exit(1);
 		}
-
 		try (
 				InputStream input = Files.newInputStream(Paths.get(args[0]));
-				BufferedWriter bw = Files.newBufferedWriter(Paths.get(args[1]), Charset.forName("UTF-8"))
+				Writer bw = new OutputStreamWriter(new BufferedOutputStream(new GZIPOutputStream(new FileOutputStream(args[1]))))
 		) {
 			WiktionaryDumpHandler handler = new WiktionaryDumpHandler(bw);
 			SAXParserFactory factory = SAXParserFactory.newInstance();

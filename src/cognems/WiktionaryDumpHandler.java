@@ -8,8 +8,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,11 +30,11 @@ public class WiktionaryDumpHandler extends DefaultHandler {
 
 	private STATE state;
 	private String title;
-	private BufferedWriter bw;
+	private Writer bw;
 	private boolean firstLine = true;
 	private StringBuilder sb = new StringBuilder();
 
-	public WiktionaryDumpHandler(@NotNull BufferedWriter bw) {
+	public WiktionaryDumpHandler(@NotNull Writer bw) {
 		resetState();
 		this.bw = bw;
 	}
@@ -80,11 +80,11 @@ public class WiktionaryDumpHandler extends DefaultHandler {
 						if (firstLine) {
 							firstLine = false;
 						} else {
-							bw.newLine();
+							bw.append("\n");
 						}
 						bw.write("# " + title);
 						for (Cognem c : cns) {
-							bw.newLine();
+							bw.append("\n");
 							bw.write(c.context.isEmpty() ? "---" : joiner.join(c.context));
 							bw.write("|");
 							bw.write(c.sense);
