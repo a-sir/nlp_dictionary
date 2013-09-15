@@ -1,7 +1,7 @@
 package cognems;
 
 import com.google.common.base.Joiner;
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
@@ -86,7 +86,7 @@ public class WiktionaryDumpHandler extends DefaultHandler {
 						for (Cognem c : cns) {
 							bw.newLine();
 							bw.write(c.context.isEmpty() ? "---" : joiner.join(c.context));
-							bw.write("\t");
+							bw.write("|");
 							bw.write(c.sense);
 						}
 					}
