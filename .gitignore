@@ -1,5 +1,10 @@
-build
 *.iml
 *.ipr
 *.iws
-out
+
+# Generated files
+target/
+.idea
+.idea_modules
+.ivy/
+.ivy2/
