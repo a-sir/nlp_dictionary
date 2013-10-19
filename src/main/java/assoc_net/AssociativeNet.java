@@ -17,7 +17,7 @@ public class AssociativeNet {
 
 	private static Logger LOG = LoggerFactory.getLogger(AssociativeNet.class);
 
-	private static final String DEFAULT_PATH = "data/eng_assoc.gz";
+	private static final String DEFAULT_PATH = AssociativeNet.class.getResource("/eng_assoc.gz").getPath();
 
 	private Set<String> stims = null;
 

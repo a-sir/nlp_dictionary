@@ -20,7 +20,7 @@ public class Loader {
 
 	private static Logger LOG = LoggerFactory.getLogger(Loader.class);
 
-	private static final String DEFAULT_PATH = "data/wordforms.gz";
+	private static final String DEFAULT_PATH = Loader.class.getResource("/wordforms.gz").getPath();
 
 	public static @NotNull Set<Lemma> loadDefaultSet() throws IOException {
 		BufferedInputStream inputStream = new BufferedInputStream(

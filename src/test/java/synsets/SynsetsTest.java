@@ -18,7 +18,7 @@ public class SynsetsTest {
 	@Test
 	public void wordNetLoadingTest() {
 		try {
-			Synsets syns = Loader.read(Paths.get("data/princeton_wp_synsets"));
+			Synsets syns = Loader.read(Paths.get(SynsetsTest.class.getResource("/princeton_wp_synsets").getPath()));
 			assertNotNull(syns);
 			assertEquals(94857, syns.getCountOfLemms());
 

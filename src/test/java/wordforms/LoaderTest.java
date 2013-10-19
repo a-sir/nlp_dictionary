@@ -1,6 +1,6 @@
 package wordforms;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
 import java.io.*;
@@ -36,7 +36,9 @@ public class LoaderTest {
 	@Test
 	public void testParsingOfLemmas() {
 		try {
-			List<Lemma> lemms = Loader.load(new FileInputStream("testdata/wordforms.raw"));
+			List<Lemma> lemms = Loader.load(
+                    new FileInputStream(LoaderTest.class.getResource("/wordforms.raw").getPath())
+            );
 			assertNotNull(lemms);
 			assertEquals(9, lemms.size());
 			assertLemmaContent(lemms.get(0), "the", "the");
