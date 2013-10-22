@@ -75,7 +75,7 @@ public class WiktionaryDumpHandler extends DefaultHandler {
 				break;
 			case "text":
 				try {
-					List<Cognem> cns = WiktionaryParser.parseDescription(title, sb.toString());
+					List<Cognem> cns = WiktionaryParseTool.parseDescription(title, sb.toString());
 					if (cns.size() > 0) {
 						if (firstLine) {
 							firstLine = false;

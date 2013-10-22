@@ -9,11 +9,10 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import java.io.*;
 
 /**
  * @author A.Sirenko
@@ -21,11 +20,7 @@ import java.io.*;
  */
 public class Loader {
 
-	public static void main(String[] args) throws IOException {
-		Reader r = new Reader();
-		Files.readLines(new File("data/princeton_wp_synsets"), Charset.forName("UTF-8"), r);
-		System.out.println("Readed " + r.getResult().size() + " synsets.");
-	}
+    private static final String PATH = Loader.class.getResource("/princeton_wp_synsets").getPath();
 
 	@NotNull
 	public static Synsets read(@NotNull Path path) throws IOException {
@@ -33,6 +28,11 @@ public class Loader {
 		Files.readLines(path.toFile(), Charset.forName("UTF-8"), r);
 		return new Synsets(r.getResult());
 	}
+
+    @NotNull
+    public static Synsets readDefault() throws IOException {
+        return read(Paths.get(PATH));
+    }
 
 	private static class Reader implements LineProcessor<List<String[]>> {
 

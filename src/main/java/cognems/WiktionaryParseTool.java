@@ -43,9 +43,9 @@ import java.util.zip.GZIPOutputStream;
  * @author A.Sirenko
  * Date: 8/4/13
  */
-public class WiktionaryParser {
+public class WiktionaryParseTool {
 
-	private static Logger LOG = LoggerFactory.getLogger(WiktionaryParser.class);
+	private static Logger LOG = LoggerFactory.getLogger(WiktionaryParseTool.class);
 
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
 

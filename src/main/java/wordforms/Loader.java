@@ -18,8 +18,6 @@ import java.util.zip.GZIPInputStream;
  */
 public class Loader {
 
-	private static Logger LOG = LoggerFactory.getLogger(Loader.class);
-
 	private static final String DEFAULT_PATH = Loader.class.getResource("/wordforms.gz").getPath();
 
 	public static @NotNull Set<Lemma> loadDefaultSet() throws IOException {
