@@ -36,7 +36,8 @@ public class RuWiktionaryParseTool {
 		}
 		try (
 				InputStream input = Files.newInputStream(Paths.get(args[0]));
-				Writer bw = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(args[1])))
+				Writer bw = new OutputStreamWriter(
+                        new BufferedOutputStream(new FileOutputStream(args[1])))
 		) {
 			RuWiktionaryDumpHandler handler = new RuWiktionaryDumpHandler(bw);
 			SAXParserFactory factory = SAXParserFactory.newInstance();
