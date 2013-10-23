@@ -17,7 +17,7 @@ import java.util.List;
  * @author A.Sirenko
  * Date: 8/8/13
  */
-public class WiktionaryDumpHandler extends DefaultHandler {
+public class EnWiktionaryDumpHandler extends DefaultHandler {
 
 	Logger LOG = LoggerFactory.getLogger(this.getClass());
 
@@ -34,7 +34,7 @@ public class WiktionaryDumpHandler extends DefaultHandler {
 	private boolean firstLine = true;
 	private StringBuilder sb = new StringBuilder();
 
-	public WiktionaryDumpHandler(@NotNull Writer bw) {
+	public EnWiktionaryDumpHandler(@NotNull Writer bw) {
 		resetState();
 		this.bw = bw;
 	}
@@ -75,7 +75,7 @@ public class WiktionaryDumpHandler extends DefaultHandler {
 				break;
 			case "text":
 				try {
-					List<Cognem> cns = WiktionaryParseTool.parseDescription(title, sb.toString());
+					List<Cognem> cns = EnWiktionaryParseTool.parseDescription(title, sb.toString());
 					if (cns.size() > 0) {
 						if (firstLine) {
 							firstLine = false;

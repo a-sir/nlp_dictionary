@@ -22,7 +22,7 @@ public class WiktionaryParseToolTest {
 				"#: " + l2 + "\n" +
 				"* {{seeCites}}\n" +
 				"====Synonyms====\n* [[wordbook]]";
-		List<Cognem> res = WiktionaryParseTool.parseDescription("somename", text);
+		List<Cognem> res = EnWiktionaryParseTool.parseDescription("somename", text);
 		assertNotNull(res);
 		assertEquals(2, res.size());
 		assertEquals(l1.replace("[[", "").replace("]]", ""), res.get(0).sense);
@@ -32,12 +32,12 @@ public class WiktionaryParseToolTest {
 	@Test
 	public void testRemoveMarkupFromDescription() {
 		Cognem.Builder builder = new Cognem.Builder("someCognem");
-		assertNull(WiktionaryParseTool.parseLine("ab '''{{NUMBEROFARTICLES}}''' c", builder));
-		Cognem c = WiktionaryParseTool.parseLine("ab [[multilingual]] c", builder);
+		assertNull(EnWiktionaryParseTool.parseLine("ab '''{{NUMBEROFARTICLES}}''' c", builder));
+		Cognem c = EnWiktionaryParseTool.parseLine("ab [[multilingual]] c", builder);
 		assertNotNull(c);
 		assertEquals("ab multilingual c", c.sense);
 
-		c = WiktionaryParseTool.parseLine("even [[Help:Starting a new page|create a page]] for a term", builder);
+		c = EnWiktionaryParseTool.parseLine("even [[Help:Starting a new page|create a page]] for a term", builder);
 		assertNotNull(c);
 		assertEquals("even create a page for a term", c.sense);
 	}
@@ -45,7 +45,7 @@ public class WiktionaryParseToolTest {
 	@Test
 	public void testParsingOfContext() {
 		Cognem.Builder builder = new Cognem.Builder("someCognem");
-		Cognem c = WiktionaryParseTool.parseLine("{{context|colloquial|lang=en}} The Atlantic Ocean.", builder);
+		Cognem c = EnWiktionaryParseTool.parseLine("{{context|colloquial|lang=en}} The Atlantic Ocean.", builder);
 		assertNotNull(c);
 		assertEquals("The Atlantic Ocean.", c.sense);
 		assertEquals(2, c.context.size());
