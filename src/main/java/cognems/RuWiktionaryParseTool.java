@@ -17,7 +17,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Pattern;
+
 import java.util.zip.GZIPOutputStream;
 
 /**
@@ -67,7 +67,7 @@ public class RuWiktionaryParseTool {
 				if (l.startsWith("=")) {
 					break;
 				}
-				Cognem cogn = null;
+				Cognem cogn;
 				String sense;
                 if (l.startsWith("# ")) {  // "# " or "#: "
                     sense = l.substring(2).trim();
@@ -82,9 +82,7 @@ public class RuWiktionaryParseTool {
                 }
 
                 cogn = parseLine(sense, builder);
-
-
-				if (cogn != null) {
+                if (cogn != null && russianAndSpaces(cogn.name)) {
 					res.add(cogn);
 				}
 			}
@@ -92,10 +90,19 @@ public class RuWiktionaryParseTool {
 		return res;
 	}
 
+    private static boolean russianAndSpaces(@NotNull String line) {
+        for (int i = 0; i < line.length(); ++i) {
+            char c = line.charAt(i);
+            if (!((c >= 'а' && c <= 'я') || (c >= 'А' && c <= 'Я') || c == ' ' || (c >= 0 && c <= 9))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 	private static final String wikiLinkOpen = "[[";
 	private static final String wikiLinkClose = "]]";
 
-	private static final Pattern ELEMENTS_TO_SKIP = Pattern.compile(".*[']{3}[{]{2}[A-Z]+[}]{2}[']{3}.*");
 	private static final String CONTEXT_OPEN = "{{";
     private static final String CONTEXT_CLOSE = "}}";
 
