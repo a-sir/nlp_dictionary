@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import java.util.zip.GZIPOutputStream;
 
 /**
  * @author A.Sirenko
@@ -56,6 +55,7 @@ public class RuWiktionaryParseTool {
 		List<Cognem> res = new ArrayList<>();
 
 		int i = text.indexOf("=Значение=");
+        if (i== -1) i = text.indexOf("= Значение =");
 
 		if (i == -1) {
 			return NODATA;
