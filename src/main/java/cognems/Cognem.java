@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,7 +16,7 @@ import java.util.zip.GZIPInputStream;
  */
 public class Cognem {
 
-	private final static String DEFAULT_WIKITIONARY_PARSED = Cognem.class.getResource("/wikitionary.parsed.gz").getPath();
+	private final static String RESOURCE_PATH = "/wikitionary.parsed.gz";
 
 	public final String name;
 	public final String sense;
@@ -40,16 +39,16 @@ public class Cognem {
 
     @NotNull
     public static List<Cognem> loadDefault() throws IOException {
-        return read(new File(DEFAULT_WIKITIONARY_PARSED));
+        return read(Cognem.class.getResourceAsStream(RESOURCE_PATH));
     }
 
     @NotNull
-    private static List<Cognem> read(@NotNull File file) throws IOException {
+    private static List<Cognem> read(@NotNull InputStream inputStream) throws IOException {
         List<Cognem> cognems = new ArrayList<>();
         List<String> currentCognRaw = new ArrayList<>();
 
         BufferedReader br = new BufferedReader(new InputStreamReader(
-            new GZIPInputStream(new FileInputStream(file))
+            new GZIPInputStream(inputStream)
         ));
         String line;
         while (true) {

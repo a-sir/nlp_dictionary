@@ -2,8 +2,6 @@ package wordforms;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,11 +16,11 @@ import java.util.zip.GZIPInputStream;
  */
 public class Loader {
 
-	private static final String DEFAULT_PATH = Loader.class.getResource("/wordforms.gz").getPath();
+	private static final String RESOURCE_PATH = "/wordforms.gz";
 
 	public static @NotNull Set<Lemma> loadDefaultSet() throws IOException {
 		BufferedInputStream inputStream = new BufferedInputStream(
-				new GZIPInputStream(new FileInputStream(DEFAULT_PATH)));
+				new GZIPInputStream(Loader.class.getResourceAsStream(RESOURCE_PATH)));
 		return new HashSet<>(load(inputStream));
 	}
 

@@ -17,7 +17,7 @@ public class AssociativeNet {
 
 	private static Logger LOG = LoggerFactory.getLogger(AssociativeNet.class);
 
-	private static final String DEFAULT_PATH = AssociativeNet.class.getResource("/eng_assoc.gz").getPath();
+	private static final String RESOURCE_PATH = "/eng_assoc.gz";
 
 	private Set<String> stims = null;
 
@@ -42,7 +42,9 @@ public class AssociativeNet {
 
 		try(
 				BufferedReader br = new BufferedReader(new InputStreamReader(
-						new GZIPInputStream(new FileInputStream(DEFAULT_PATH))))) {
+						new GZIPInputStream(AssociativeNet.class.getResourceAsStream(RESOURCE_PATH))
+                ))
+        ) {
 			String line;
 			while((line = br.readLine()) != null) {
 				String[] token = line.toLowerCase().split(" ");

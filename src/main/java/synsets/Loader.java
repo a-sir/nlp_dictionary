@@ -1,15 +1,15 @@
 package synsets;
 
+import com.google.common.base.Charsets;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.google.common.io.Files;
 import com.google.common.io.LineProcessor;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,18 +20,22 @@ import java.util.List;
  */
 public class Loader {
 
-    private static final String PATH = Loader.class.getResource("/princeton_wp_synsets").getPath();
+    private static final String RESOURCE_PATH = "/princeton_wp_synsets";
 
 	@NotNull
-	public static Synsets read(@NotNull Path path) throws IOException {
+	public static Synsets read(@NotNull InputStream inputStream) throws IOException {
 		Reader r = new Reader();
-		Files.readLines(path.toFile(), Charset.forName("UTF-8"), r);
+        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, Charsets.UTF_8));
+        String line;
+        while ((line = br.readLine()) != null) {
+            r.processLine(line);
+        }
 		return new Synsets(r.getResult());
 	}
 
     @NotNull
     public static Synsets readDefault() throws IOException {
-        return read(Paths.get(PATH));
+        return read(Loader.class.getResourceAsStream(RESOURCE_PATH));
     }
 
 	private static class Reader implements LineProcessor<List<String[]>> {
