@@ -74,16 +74,16 @@ public class Cognem {
     }
 
     @NotNull
-    private static List<Cognem> parse(@NotNull List<String> lines) {
+    static List<Cognem> parse(@NotNull List<String> lines) {
         if (!lines.get(0).startsWith("# ") || lines.size() < 2) {
             throw new RuntimeException("Wrong lines: " + lines);
         }
         String name = lines.get(0).substring(2);
         List<Cognem> res = new ArrayList<>();
         for (int i = 1 ; i <= lines.size() - 1; ++i) {
-            String[] comp = lines.get(i).split("|");
-            String desc = comp[1];
-            String[] areas = comp[0].split(",");
+            int delim = lines.get(i).indexOf("|");
+            String desc = lines.get(i).substring(delim + 1);
+            String[] areas = lines.get(i).substring(0, delim).split(",");
             if (areas.length == 1 && areas[0].equals("---")) {
                 areas = new String[0];
             }
