@@ -80,7 +80,7 @@ public class Cognem {
         String name = lines.get(0).substring(2);
         List<Cognem> res = new ArrayList<>();
         for (int i = 1 ; i <= lines.size() - 1; ++i) {
-            int delim = lines.get(i).indexOf("|");
+            int delim = lines.get(i).indexOf("\t");
             String desc = lines.get(i).substring(delim + 1);
             String[] areas = lines.get(i).substring(0, delim).split(",");
             if (areas.length == 1 && areas[0].equals("---")) {

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.fail;
 import static org.junit.Assert.assertTrue;
 
@@ -19,8 +20,8 @@ public class CognemTest {
     public void shouldParseCorrectSequenceOfLines() {
         List<String> lines = new ArrayList<>();
         lines.add("# dictionary");
-        lines.add("---|A reference work");
-        lines.add("hurling,lang=en|The usual");
+        lines.add("---\tA reference work");
+        lines.add("hurling,lang=en\tThe usual");
         List<Cognem> cognems = Cognem.parse(lines);
 
         assertEquals(2, cognems.size());
@@ -50,10 +51,21 @@ public class CognemTest {
 
         try {
             List<String> data = new ArrayList<>();
-            data.add("---|area");
+            data.add("---\tarea");
             Cognem.parse(data);
             fail();
         } catch (RuntimeException ignored) {
+        }
+    }
+
+    @Test
+    public void testDefaultResource() {
+        try {
+            List<Cognem> data = Cognem.loadDefault();
+            assertNotNull(data);
+            assertTrue(data.size() == 1117697);
+        } catch (Exception e) {
+            fail(e.getMessage());
         }
     }
 

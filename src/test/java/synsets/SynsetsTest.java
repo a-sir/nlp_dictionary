@@ -33,4 +33,15 @@ public class SynsetsTest {
 			fail();
 		}
 	}
+
+    @Test
+    public void testLoadDefaultResource() {
+        try {
+            Synsets syns = Loader.readDefault();
+            assertNotNull(syns);
+            assertTrue(syns.size() == 117659);
+        } catch (Exception e) {
+            fail(e.toString());
+        }
+    }
 }
